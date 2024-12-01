@@ -1,45 +1,59 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Recipe } from './Recepie';
+import './RecepieDetails.css';
 
 interface RecipeDetailsProps {
-  recipes: Recipe[]; // A Recipe az interfész, amit már definiáltál.
+  recipes: Recipe[];
 }
 
 const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes }) => {
-  const { id } = useParams<{ id: string }>(); // Az URL-ből származtatjuk a recept azonosítóját.
-  const recipe = recipes.find((r) => r.id === id); // Megkeressük az adott receptet.
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const recipe = recipes.find((r) => r.id === id);
 
   if (!recipe) {
-    return <p>Recipe not found!</p>;
+    return <p>Recept nem található.</p>;
   }
 
-  const shareUrl = `${window.location.origin}/recipe/${recipe.id}`; // Az URL, amit megosztunk.
+  const shareRecipe = (platform: string) => {
+    const recipeUrl = `${window.location.origin}/recipe/${recipe.id}`;
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(recipeUrl)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl)}`;
+        break;
+      case 'email':
+        shareUrl = `mailto:?subject=${encodeURIComponent('Egy szuper receptet találtam!')}&body=${encodeURIComponent(recipeUrl)}`;
+        break;
+      default:
+        return;
+    }
+
+    window.open(shareUrl, '_blank');
+  };
 
   return (
     <div className="recipe-details">
+      <button className="back-button" onClick={() => navigate('/')}>
+        Vissza
+      </button>
+
       <h2>{recipe.name}</h2>
-      <p>{recipe.description}</p>
-      <p><strong>Preparation Time:</strong> {recipe.time} minutes</p>
-      <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
+      <p><strong>Összetevők:</strong> {recipe.ingredients.join(', ')}</p>
+      <p><strong>Kategória:</strong> {recipe.category}</p>
+      <p><strong>Elkészítési idő:</strong> {recipe.time} perc</p>
+      <p><strong>Leírás:</strong> {recipe.description}</p>
 
-      <div className="share-buttons">
-        <h3>Share this recipe:</h3>
-        {/* FacebookShareButton without the quote property */}
-        <FacebookShareButton url={shareUrl} hashtag="#recipe">
-          <button className="facebook">Facebook</button>
-        </FacebookShareButton>
-
-        {/* TwitterShareButton with title property */}
-        <TwitterShareButton url={shareUrl} title={`Check out this recipe: ${recipe.name}`}>
-          <button className="twitter">Twitter</button>
-        </TwitterShareButton>
-
-        {/* WhatsappShareButton with title property */}
-        <WhatsappShareButton url={shareUrl} title={`Check out this recipe: ${recipe.name}`}>
-          <button className="whatsapp">WhatsApp</button>
-        </WhatsappShareButton>
+      <div className="share-menu">
+        <p>Oszd meg itt:</p>
+        <button onClick={() => shareRecipe('facebook')}>Facebook</button>
+        <button onClick={() => shareRecipe('twitter')}>Twitter</button>
+        <button onClick={() => shareRecipe('email')}>E-mail</button>
       </div>
     </div>
   );

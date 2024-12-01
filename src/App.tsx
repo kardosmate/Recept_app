@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import { useLocalStorage } from './useLocalStorage';
 import { Recipe } from './Recepie';
 import Header from './Header';
 import RecipeForm from './RecepieForm';
 import RecipeList from './RecepieList';
+import RecipeDetails from './RecepieDetails';
 import Favorites from './Favorites';
 import ShoppingList from './ShoppingList';
 import SearchBar from './SearchBar';
 
 const App: React.FC = () => {
   const [recipes, setRecipes] = useLocalStorage<Recipe[]>('recipes', []);
-  const [currentPage, setCurrentPage] = useState('recept-lista');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -51,33 +52,56 @@ const App: React.FC = () => {
     return matchesQuery && matchesCategory;
   });
 
+  // Wrapper component for navigation handling
+  const HeaderWithNavigation: React.FC = () => {
+    const navigate = useNavigate();
+    return (
+      <Header
+        onNavigate={(page) => {
+          switch (page) {
+            case 'recept-lista':
+              navigate('/');
+              break;
+            case 'uj-recept':
+              navigate('/new-recipe');
+              break;
+            case 'kedvencek':
+              navigate('/favorites');
+              break;
+            case 'bevásárló-lista':
+              navigate('/shopping-list');
+              break;
+            default:
+              navigate('/');
+          }
+        }}
+      />
+    );
+  };
+
   return (
-    <div>
-      <Header onNavigate={setCurrentPage} />
-
-      {currentPage === 'recept-lista' && (
-        <>
-          <SearchBar onSearch={handleSearch} categories={categories} />
-          <RecipeList
-            recipes={filteredRecipes}
-            onToggleFavorite={toggleFavorite}
-            onRemoveRecipe={removeRecipe}
-          />
-        </>
-      )}
-
-      {currentPage === 'uj-recept' && (
-        <RecipeForm onAddRecipe={addRecipe} categories={categories} />
-      )}
-
-      {currentPage === 'kedvencek' && (
-        <Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />
-      )}
-
-      {currentPage === 'bevásárló-lista' && (
-        <ShoppingList recipes={filteredRecipes} />
-      )}
-    </div>
+    <Router>
+      <HeaderWithNavigation />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchBar onSearch={handleSearch} categories={categories} />
+              <RecipeList
+                recipes={filteredRecipes}
+                onToggleFavorite={toggleFavorite}
+                onRemoveRecipe={removeRecipe}
+              />
+            </>
+          }
+        />
+        <Route path="/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
+        <Route path="/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
+        <Route path="/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
+        <Route path="/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
+      </Routes>
+    </Router>
   );
 };
 
