@@ -10,9 +10,9 @@ import SearchBar from './SearchBar';
 
 const App: React.FC = () => {
   const [recipes, setRecipes] = useLocalStorage<Recipe[]>('recipes', []);
-  const [currentPage, setCurrentPage] = useState('recept-lista'); // Default: ReceptLista
+  const [currentPage, setCurrentPage] = useState('recept-lista');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]); // Több kategória kiválasztása
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const categories = ['Főételek', 'Desszertek', 'Előételek'];
 
@@ -34,18 +34,16 @@ const App: React.FC = () => {
 
   const handleSearch = (query: string, categories: string[]) => {
     setSearchQuery(query);
-    setSelectedCategories(categories); // Több kategória kezelése
+    setSelectedCategories(categories);
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
-    // Keresési feltétel (név és összetevők)
     const matchesQuery =
       recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       recipe.ingredients.some((ingredient) =>
         ingredient.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-    // Kategóriák szűrése
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.includes(recipe.category);
@@ -57,7 +55,6 @@ const App: React.FC = () => {
     <div>
       <Header onNavigate={setCurrentPage} />
 
-      {/* Oldalak megjelenítése */}
       {currentPage === 'recept-lista' && (
         <>
           <SearchBar onSearch={handleSearch} categories={categories} />

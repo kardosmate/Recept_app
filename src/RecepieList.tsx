@@ -60,7 +60,6 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleFavorite, onRe
 
         return (
           <li key={recipe.id} className="recipe-card">
-            {/* Kedvencekhez csillag */}
             <span
               className={`favorite-icon ${recipe.isFavorite ? 'filled' : ''}`}
               onClick={() => onToggleFavorite(recipe.id)}
@@ -72,12 +71,10 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleFavorite, onRe
             <h3>{recipe.name}</h3>
             <p className="recipe-category">Kategória: {recipe.category}</p>
 
-            {/* Read More gomb */}
             <button className="read-more" onClick={() => toggleDetails(recipe.id)}>
               {isExpanded ? 'Show less' : 'Read more'}
             </button>
 
-            {/* Törlés gomb */}
             <button className="delete-button" onClick={() => onRemoveRecipe(recipe.id)}>
               Törlés
             </button>
