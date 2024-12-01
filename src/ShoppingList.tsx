@@ -1,26 +1,22 @@
 import React from 'react';
-import { Recipe } from './Recepie';
 
 interface ShoppingListProps {
-  recipes: Recipe[];
+  items: string[];
 }
 
-const ShoppingList: React.FC<ShoppingListProps> = ({ recipes }) => {
-  const allIngredients = recipes.flatMap((recipe) => recipe.ingredients);
-  const uniqueIngredients = Array.from(new Set(allIngredients));
+const ShoppingList: React.FC<ShoppingListProps> = ({ items }) => {
+  if (items.length === 0) {
+    return <p>A bevásárlólista üres.</p>;
+  }
 
   return (
-    <div>
+    <div className="shopping-list">
       <h2>Bevásárlólista</h2>
-      {uniqueIngredients.length > 0 ? (
-        <ul>
-          {uniqueIngredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>Nincs összetevő</p>
-      )}
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };

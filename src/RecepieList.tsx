@@ -6,10 +6,16 @@ import './RecepieList.css';
 interface RecipeListProps {
   recipes: Recipe[];
   onToggleFavorite: (id: string) => void;
+  onAddToShoppingList: (ingredients: string[]) => void;
   onRemoveRecipe: (id: string) => void;
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleFavorite, onRemoveRecipe }) => {
+const RecipeList: React.FC<RecipeListProps> = ({
+  recipes,
+  onToggleFavorite,
+  onAddToShoppingList,
+  onRemoveRecipe,
+}) => {
   const navigate = useNavigate();
 
   const handleReadMore = (id: string) => {
@@ -27,7 +33,13 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleFavorite, onRe
           >
             ★
           </span>
-
+          <span
+            className="shopping-list-icon"
+            onClick={() => onAddToShoppingList(recipe.ingredients)}
+            title="Hozzáadás a bevásárlólistához"
+          >
+            🛒
+          </span>
           <h3>{recipe.name}</h3>
           <p className="recipe-category">Kategória: {recipe.category}</p>
 

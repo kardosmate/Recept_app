@@ -12,6 +12,7 @@ import SearchBar from './SearchBar';
 
 const App: React.FC = () => {
   const [recipes, setRecipes] = useLocalStorage<Recipe[]>('recipes', []);
+  const [shoppingList, setShoppingList] = useLocalStorage<string[]>('shoppingList', []);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -27,6 +28,10 @@ const App: React.FC = () => {
         recipe.id === id ? { ...recipe, isFavorite: !recipe.isFavorite } : recipe
       )
     );
+  };
+
+  const addToShoppingList = (ingredients: string[]) => {
+    setShoppingList([...shoppingList, ...ingredients]);
   };
 
   const removeRecipe = (id: string) => {
@@ -52,7 +57,6 @@ const App: React.FC = () => {
     return matchesQuery && matchesCategory;
   });
 
-  // Wrapper component for navigation handling
   const HeaderWithNavigation: React.FC = () => {
     const navigate = useNavigate();
     return (
@@ -60,19 +64,19 @@ const App: React.FC = () => {
         onNavigate={(page) => {
           switch (page) {
             case 'recept-lista':
-              navigate('/Recept_app/dist'); // Navigálás a recept lista oldalra
+              navigate('/Recept_app/dist');
               break;
             case 'uj-recept':
-              navigate('/Recept_app/dist/new-recipe'); // Navigálás az új recept oldalra
+              navigate('/Recept_app/dist/new-recipe');
               break;
             case 'kedvencek':
-              navigate('/Recept_app/dist/favorites'); // Navigálás a kedvencek oldalra
+              navigate('/Recept_app/dist/favorites');
               break;
             case 'bevásárló-lista':
-              navigate('/Recept_app/dist/shopping-list'); // Navigálás a bevásárló lista oldalra
+              navigate('/Recept_app/dist/shopping-list');
               break;
             default:
-              navigate('/Recept_app/dist'); // Alapértelmezett navigálás
+              navigate('/Recept_app/dist');
           }
         }}
       />
@@ -91,15 +95,35 @@ const App: React.FC = () => {
               <RecipeList
                 recipes={filteredRecipes}
                 onToggleFavorite={toggleFavorite}
+                onAddToShoppingList={addToShoppingList}
                 onRemoveRecipe={removeRecipe}
               />
             </>
           }
         />
-        <Route path="/Recept_app/dist/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
-        <Route path="/Recept_app/dist/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
-        <Route path="/Recept_app/dist/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
-        <Route path="/Recept_app/dist/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
+        <Route
+          path="/Recept_app/dist/recipe/:id"
+          element={
+            <RecipeDetails
+              recipes={recipes}
+              onAddToShoppingList={addToShoppingList}
+            />
+          }
+        />
+        <Route
+          path="/Recept_app/dist/new-recipe"
+          element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />}
+        />
+        <Route
+          path="/Recept_app/dist/favorites"
+          element={
+            <Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />
+          }
+        />
+        <Route
+          path="/Recept_app/dist/shopping-list"
+          element={<ShoppingList items={shoppingList} />}
+        />
       </Routes>
     </Router>
   );

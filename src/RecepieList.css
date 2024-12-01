@@ -114,6 +114,15 @@ body {
     background-color: darkred;
 }
 
+.shopping-list-icon {
+    cursor: pointer;
+    color: gray;
+}
+
+.shopping-list-icon.filled {
+    color: green;
+}
+
 /* Receptlista */
 ul {
     list-style-type: none;

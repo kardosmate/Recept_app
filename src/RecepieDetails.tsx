@@ -5,9 +5,10 @@ import './RecepieDetails.css';
 
 interface RecipeDetailsProps {
   recipes: Recipe[];
+  onAddToShoppingList: (ingredients: string[]) => void;
 }
 
-const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes }) => {
+const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes, onAddToShoppingList }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
@@ -16,30 +17,13 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes }) => {
     return <p>Recept nem található.</p>;
   }
 
-  const shareRecipe = (platform: string) => {
-    const recipeUrl = `/Recept_app/dist/recipe/${recipe.id}`;
-    let shareUrl = '';
-
-    switch (platform) {
-      case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(recipeUrl)}`;
-        break;
-      case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl)}`;
-        break;
-      case 'email':
-        shareUrl = `mailto:?subject=${encodeURIComponent('Egy szuper receptet találtam!')}&body=${encodeURIComponent(recipeUrl)}`;
-        break;
-      default:
-        return;
-    }
-
-    window.open(shareUrl, '_blank');
+  const handleAddToShoppingList = () => {
+    onAddToShoppingList(recipe.ingredients);
   };
 
   return (
     <div className="recipe-details">
-      <button className="back-button" onClick={() => navigate('/')}>
+      <button className="back-button" onClick={() => navigate('/Recept_app/dist')}>
         Vissza
       </button>
 
@@ -49,12 +33,15 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes }) => {
       <p><strong>Elkészítési idő:</strong> {recipe.time} perc</p>
       <p><strong>Leírás:</strong> {recipe.description}</p>
 
-      <div className="share-menu">
-        <p>Oszd meg itt:</p>
-        <button onClick={() => shareRecipe('facebook')}>Facebook</button>
-        <button onClick={() => shareRecipe('twitter')}>Twitter</button>
-        <button onClick={() => shareRecipe('email')}>E-mail</button>
-      </div>
+      <button onClick={handleAddToShoppingList} className="add-to-shopping-list">
+        Hozzáadás a bevásárlólistához
+      </button>
+      <button
+        className="edit-recipe"
+        onClick={() => navigate(`/Recept_app/dist/new-recipe?edit=${recipe.id}`)}
+      >
+        Szerkesztés
+      </button>
     </div>
   );
 };
