@@ -60,19 +60,19 @@ const App: React.FC = () => {
         onNavigate={(page) => {
           switch (page) {
             case 'recept-lista':
-              navigate('#/'); // Navigálás a recept lista oldalra
+              navigate('/'); // Navigálás a recept lista oldalra
               break;
             case 'uj-recept':
-              navigate('#/new-recipe'); // Navigálás az új recept oldalra
+              navigate('/new-recipe'); // Navigálás az új recept oldalra
               break;
             case 'kedvencek':
-              navigate('#/favorites'); // Navigálás a kedvencek oldalra
+              navigate('/favorites'); // Navigálás a kedvencek oldalra
               break;
             case 'bevásárló-lista':
-              navigate('#/shopping-list'); // Navigálás a bevásárló lista oldalra
+              navigate('/shopping-list'); // Navigálás a bevásárló lista oldalra
               break;
             default:
-              navigate('#/'); // Alapértelmezett navigálás
+              navigate('/'); // Alapértelmezett navigálás
           }
         }}
       />
