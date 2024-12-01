@@ -6,15 +6,17 @@ import './RecepieList.css';
 interface RecipeListProps {
   recipes: Recipe[];
   onToggleFavorite: (id: string) => void;
-  onAddToShoppingList: (ingredients: string[]) => void;
+  onToggleShoppingList: (id: string) => void;
   onRemoveRecipe: (id: string) => void;
+  shoppingListRecipes: string[]; // Add the shopping list state
 }
 
 const RecipeList: React.FC<RecipeListProps> = ({
   recipes,
   onToggleFavorite,
-  onAddToShoppingList,
+  onToggleShoppingList,
   onRemoveRecipe,
+  shoppingListRecipes
 }) => {
   const navigate = useNavigate();
 
@@ -33,25 +35,35 @@ const RecipeList: React.FC<RecipeListProps> = ({
           >
             ★
           </span>
-          <span
-            className="shopping-list-icon"
-            onClick={() => onAddToShoppingList(recipe.ingredients)}
-            title="Hozzáadás a bevásárlólistához"
-          >
-            🗒
-          </span>
           <h3>{recipe.name}</h3>
           <p className="recipe-category">Kategória: {recipe.category}</p>
 
           <button className="read-more" onClick={() => handleReadMore(recipe.id)}>
-            Read more
+            Részletek
           </button>
 
           <button className="delete-button" onClick={() => onRemoveRecipe(recipe.id)}>
             Törlés
           </button>
+
+          {/* Shopping list button */}
+          <span
+            className={`shopping-list-icon ${shoppingListRecipes.includes(recipe.id) ? 'added' : ''}`}
+            onClick={() => onToggleShoppingList(recipe.id)}
+            title={shoppingListRecipes.includes(recipe.id) ? 'Eltávolítás a bevásárlólistából' : 'Hozzáadás a bevásárlólistához'}
+          >
+            {shoppingListRecipes.includes(recipe.id) ? '➖' : '🛒'}
+          </span>
         </li>
       ))}
+
+      {/* Floating button at the bottom-right */}
+      <button
+        className="shopping-list-toggle"
+        onClick={() => navigate('/Recept_app/dist/shopping-list')}
+      >
+        Bevásárlólista
+      </button>
     </ul>
   );
 };

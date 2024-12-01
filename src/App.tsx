@@ -13,7 +13,7 @@ import RecepieEdit from './RecepieEdit';
 
 const App: React.FC = () => {
   const [recipes, setRecipes] = useLocalStorage<Recipe[]>('recipes', []);
-  const [shoppingList, setShoppingList] = useLocalStorage<string[]>('shoppingList', []);
+  const [shoppingListRecipes, setShoppingListRecipes] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -37,8 +37,10 @@ const App: React.FC = () => {
     );
   };
 
-  const addToShoppingList = (ingredients: string[]) => {
-    setShoppingList([...shoppingList, ...ingredients]);
+  const toggleShoppingList = (id: string) => {
+    setShoppingListRecipes((prev) =>
+      prev.includes(id) ? prev.filter((recipeId) => recipeId !== id) : [...prev, id]
+    );
   };
 
   const removeRecipe = (id: string) => {
@@ -102,20 +104,17 @@ const App: React.FC = () => {
               <RecipeList
                 recipes={filteredRecipes}
                 onToggleFavorite={toggleFavorite}
-                onAddToShoppingList={addToShoppingList}
+                onToggleShoppingList={toggleShoppingList}
                 onRemoveRecipe={removeRecipe}
+                shoppingListRecipes={shoppingListRecipes}
               />
+
             </>
           }
         />
         <Route
           path="/Recept_app/dist/recipe/:id"
-          element={
-            <RecipeDetails
-              recipes={recipes}
-              onAddToShoppingList={addToShoppingList}
-            />
-          }
+          element={<RecipeDetails recipes={recipes} />}
         />
         <Route
           path="/Recept_app/dist/new-recipe"
@@ -139,7 +138,13 @@ const App: React.FC = () => {
         />
         <Route
           path="/Recept_app/dist/shopping-list"
-          element={<ShoppingList recipes={recipes} />}
+          element={
+            <ShoppingList
+              recipes={recipes}
+              shoppingListRecipes={shoppingListRecipes}
+              onToggleShoppingList={toggleShoppingList}
+            />
+          }
         />
       </Routes>
     </Router>

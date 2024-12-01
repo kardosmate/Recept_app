@@ -1,50 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Recipe } from './Recepie';
 
 interface ShoppingListProps {
   recipes: Recipe[];
+  shoppingListRecipes: string[];
+  onToggleShoppingList: (id: string) => void;
 }
 
-const ShoppingList: React.FC<ShoppingListProps> = ({ recipes }) => {
-  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
-  const [shoppingList, setShoppingList] = useState<string[]>([]);
-
-  const toggleRecipeSelection = (id: string) => {
-    setSelectedRecipes((prev) =>
-      prev.includes(id) ? prev.filter((recipeId) => recipeId !== id) : [...prev, id]
-    );
-  };
-
-  const generateShoppingList = () => {
-    const ingredients = recipes
-      .filter((recipe) => selectedRecipes.includes(recipe.id))
-      .flatMap((recipe) => recipe.ingredients);
-    setShoppingList(Array.from(new Set(ingredients))); // Egyedi hozzávalók
-  };
+const ShoppingList: React.FC<ShoppingListProps> = ({
+  recipes,
+  shoppingListRecipes,
+  onToggleShoppingList,
+}) => {
+  const shoppingRecipes = recipes.filter((recipe) =>
+    shoppingListRecipes.includes(recipe.id)
+  );
 
   return (
-    <div>
+    <div className="shopping-list">
       <h2>Bevásárlólista</h2>
-      <h3>Receptek kiválasztása</h3>
       <ul>
-        {recipes.map((recipe) => (
+        {shoppingRecipes.map((recipe) => (
           <li key={recipe.id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedRecipes.includes(recipe.id)}
-                onChange={() => toggleRecipeSelection(recipe.id)}
-              />
-              {recipe.name}
-            </label>
+            <h3>{recipe.name}</h3>
+            <p>Hozzávalók:</p>
+            <ul>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+            <button onClick={() => onToggleShoppingList(recipe.id)}>
+              Eltávolítás a bevásárlólistából
+            </button>
           </li>
-        ))}
-      </ul>
-      <button onClick={generateShoppingList}>Lista generálása</button>
-      <h3>Hozzávalók</h3>
-      <ul>
-        {shoppingList.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
         ))}
       </ul>
     </div>
