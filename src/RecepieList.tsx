@@ -13,7 +13,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleFavorite, onRe
   const navigate = useNavigate();
 
   const handleReadMore = (id: string) => {
-    navigate(`/recipe/${id}`);
+    navigate(`/Recept_app/dist/recipe/${id}`);
   };
 
   return (
