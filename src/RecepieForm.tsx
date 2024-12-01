@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Recipe } from './Recepie';
 
 interface RecipeFormProps {
   onSubmit: (recipe: Recipe) => void;
-  categories: string[]; // Az elérhető kategóriák listája
-  initialData?: Recipe; // Opcionális, meglévő adatok módosításkor
-  submitButtonLabel?: string; // Gomb felirat (pl. Recept hozzáadása vagy Recept módosítása)
+  categories: string[];
+  initialData?: Recipe;
+  submitButtonLabel?: string;
 }
 
 const RecipeForm: React.FC<RecipeFormProps> = ({
@@ -14,14 +14,23 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   initialData,
   submitButtonLabel = 'Recept hozzáadása',
 }) => {
-  const [name, setName] = useState<string>(initialData?.name || '');
-  const [ingredients, setIngredients] = useState<string>(
-    initialData?.ingredients.join(', ') || ''
-  );
-  const [time, setTime] = useState<string>(initialData?.time || '');
-  const [description, setDescription] = useState<string>(initialData?.description || '');
-  const [category, setCategory] = useState<string>(initialData?.category || categories[0] || '');
+  const [name, setName] = useState<string>('');
+  const [ingredients, setIngredients] = useState<string>('');
+  const [time, setTime] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [category, setCategory] = useState<string>(categories[0] || '');
   const [error, setError] = useState<string | null>(null);
+
+  // Effect to update form state if initialData changes
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name);
+      setIngredients(initialData.ingredients.join(', '));
+      setTime(initialData.time);
+      setDescription(initialData.description);
+      setCategory(initialData.category);
+    }
+  }, [initialData]);
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -31,8 +40,6 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Basic validation
     if (!name || !ingredients || !time || !description || !category) {
       setError('Minden mezőt ki kell tölteni.');
       return;
@@ -49,16 +56,6 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     };
 
     onSubmit(newRecipe);
-
-    if (!initialData) {
-      // Reset form state only for new recipes
-      setName('');
-      setIngredients('');
-      setTime('');
-      setDescription('');
-      setCategory(categories[0] || '');
-      setError(null);
-    }
   };
 
   return (

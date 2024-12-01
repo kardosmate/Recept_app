@@ -38,7 +38,7 @@ const RecipeList: React.FC<RecipeListProps> = ({
             onClick={() => onAddToShoppingList(recipe.ingredients)}
             title="Hozzáadás a bevásárlólistához"
           >
-            🛒
+            🗒
           </span>
           <h3>{recipe.name}</h3>
           <p className="recipe-category">Kategória: {recipe.category}</p>
