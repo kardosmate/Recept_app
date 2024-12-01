@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import { Recipe } from './Recepie';
 
 interface RecipeFormProps {
-  onAddRecipe: (recipe: Recipe) => void;
+  onSubmit: (recipe: Recipe) => void;
   categories: string[]; // Az elérhető kategóriák listája
+  initialData?: Recipe; // Opcionális, meglévő adatok módosításkor
+  submitButtonLabel?: string; // Gomb felirat (pl. Recept hozzáadása vagy Recept módosítása)
 }
 
-const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe, categories }) => {
-  const [name, setName] = useState<string>('');
-  const [ingredients, setIngredients] = useState<string>('');
-  const [time, setTime] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [category, setCategory] = useState<string>(categories[0] || ''); // Alapértelmezett kategória
+const RecipeForm: React.FC<RecipeFormProps> = ({
+  onSubmit,
+  categories,
+  initialData,
+  submitButtonLabel = 'Recept hozzáadása',
+}) => {
+  const [name, setName] = useState<string>(initialData?.name || '');
+  const [ingredients, setIngredients] = useState<string>(
+    initialData?.ingredients.join(', ') || ''
+  );
+  const [time, setTime] = useState<string>(initialData?.time || '');
+  const [description, setDescription] = useState<string>(initialData?.description || '');
+  const [category, setCategory] = useState<string>(initialData?.category || categories[0] || '');
   const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => {
@@ -30,24 +39,26 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe, categories }) => {
     }
 
     const newRecipe: Recipe = {
-      id: Date.now().toString(),
+      id: initialData?.id || Date.now().toString(),
       name,
       ingredients: ingredients.split(',').map((ingredient) => ingredient.trim()),
       time,
       description,
       category,
-      isFavorite: false,
+      isFavorite: initialData?.isFavorite || false,
     };
 
-    onAddRecipe(newRecipe);
+    onSubmit(newRecipe);
 
-    // Reset form state
-    setName('');
-    setIngredients('');
-    setTime('');
-    setDescription('');
-    setCategory(categories[0] || ''); // Reset to first category
-    setError(null);
+    if (!initialData) {
+      // Reset form state only for new recipes
+      setName('');
+      setIngredients('');
+      setTime('');
+      setDescription('');
+      setCategory(categories[0] || '');
+      setError(null);
+    }
   };
 
   return (
@@ -91,7 +102,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe, categories }) => {
           </option>
         ))}
       </select>
-      <button type="submit">Recept hozzáadása</button>
+      <button type="submit">{submitButtonLabel}</button>
     </form>
   );
 };
