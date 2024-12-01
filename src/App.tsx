@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import { useLocalStorage } from './useLocalStorage';
 import { Recipe } from './Recepie';
 import Header from './Header';
@@ -60,19 +60,19 @@ const App: React.FC = () => {
         onNavigate={(page) => {
           switch (page) {
             case 'recept-lista':
-              navigate('/Recept_app/dist');
+              navigate('#/'); // Navigálás a recept lista oldalra
               break;
             case 'uj-recept':
-              navigate('/Recept_app/dist/new-recipe');
+              navigate('#/new-recipe'); // Navigálás az új recept oldalra
               break;
             case 'kedvencek':
-              navigate('/Recept_app/dist/favorites');
+              navigate('#/favorites'); // Navigálás a kedvencek oldalra
               break;
             case 'bevásárló-lista':
-              navigate('/Recept_app/dist/shopping-list');
+              navigate('#/shopping-list'); // Navigálás a bevásárló lista oldalra
               break;
             default:
-              navigate('/Recept_app/dist');
+              navigate('#/'); // Alapértelmezett navigálás
           }
         }}
       />
@@ -84,7 +84,7 @@ const App: React.FC = () => {
       <HeaderWithNavigation />
       <Routes>
         <Route
-          path="/Recept_app/dist/"
+          path="/"
           element={
             <>
               <SearchBar onSearch={handleSearch} categories={categories} />
@@ -96,10 +96,10 @@ const App: React.FC = () => {
             </>
           }
         />
-        <Route path="/Recept_app/dist/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
-        <Route path="/Recept_app/dist/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
-        <Route path="/Recept_app/dist/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
-        <Route path="/Recept_app/dist/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
+        <Route path="/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
+        <Route path="/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
+        <Route path="/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
+        <Route path="/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
       </Routes>
     </Router>
   );
