@@ -17,7 +17,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes }) => {
   }
 
   const shareRecipe = (platform: string) => {
-    const recipeUrl = `${window.location.origin}/recipe/${recipe.id}`;
+    const recipeUrl = `/Recept_app/dist/recipe/${recipe.id}`;
     let shareUrl = '';
 
     switch (platform) {
