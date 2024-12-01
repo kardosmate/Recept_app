@@ -60,19 +60,19 @@ const App: React.FC = () => {
         onNavigate={(page) => {
           switch (page) {
             case 'recept-lista':
-              navigate('/');
+              navigate('/Recept_app/dist');
               break;
             case 'uj-recept':
-              navigate('/new-recipe');
+              navigate('/Recept_app/dist/new-recipe');
               break;
             case 'kedvencek':
-              navigate('/favorites');
+              navigate('/Recept_app/dist/favorites');
               break;
             case 'bevásárló-lista':
-              navigate('/shopping-list');
+              navigate('/Recept_app/dist/shopping-list');
               break;
             default:
-              navigate('/');
+              navigate('/Recept_app/dist');
           }
         }}
       />
@@ -84,7 +84,7 @@ const App: React.FC = () => {
       <HeaderWithNavigation />
       <Routes>
         <Route
-          path="/"
+          path="/Recept_app/dist/"
           element={
             <>
               <SearchBar onSearch={handleSearch} categories={categories} />
@@ -96,10 +96,10 @@ const App: React.FC = () => {
             </>
           }
         />
-        <Route path="/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
-        <Route path="/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
-        <Route path="/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
-        <Route path="/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
+        <Route path="/Recept_app/dist/recipe/:id" element={<RecipeDetails recipes={recipes} />} />
+        <Route path="/Recept_app/dist/new-recipe" element={<RecipeForm onAddRecipe={addRecipe} categories={categories} />} />
+        <Route path="/Recept_app/dist/favorites" element={<Favorites recipes={filteredRecipes} onToggleFavorite={toggleFavorite} />} />
+        <Route path="/Recept_app/dist/shopping-list" element={<ShoppingList recipes={filteredRecipes} />} />
       </Routes>
     </Router>
   );
