@@ -56,14 +56,7 @@ const RecipeList: React.FC<RecipeListProps> = ({
           </span>
         </li>
       ))}
-
-      {/* Floating button at the bottom-right */}
-      <button
-        className="shopping-list-toggle"
-        onClick={() => navigate('/Recept_app/dist/shopping-list')}
-      >
-        Bevásárlólista
-      </button>
+      
     </ul>
   );
 };
