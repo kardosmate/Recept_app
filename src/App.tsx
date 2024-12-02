@@ -18,10 +18,18 @@ const App: React.FC = () => {
 
   const categories = ['Főételek', 'Desszertek', 'Előételek'];
 
+  /**
+   * Adds a new recipe to the 'recipes' state
+   * @param {Recipe} recipe - The new recipe to be added
+   */
   const addRecipe = (recipe: Recipe) => {
     setRecipes([...recipes, recipe]);
   };
 
+  /**
+   * Updates an existing recipe in the 'recipes' state
+   * @param {Recipe} updatedRecipe - The recipe with updated values
+   */
   const updateRecipe = (updatedRecipe: Recipe) => {
     setRecipes(
       recipes.map((recipe) =>
@@ -30,6 +38,10 @@ const App: React.FC = () => {
     );
   };
 
+   /**
+   * Toggles the 'isFavorite' status of a recipe
+   * @param {string} id - The ID of the recipe to toggle the favorite status
+   */
   const toggleFavorite = (id: string) => {
     setRecipes(
       recipes.map((recipe) =>
@@ -38,16 +50,29 @@ const App: React.FC = () => {
     );
   };
 
+  /**
+   * Adds or removes a recipe from the shopping list
+   * @param {string} id - The ID of the recipe to toggle in the shopping list
+   */
   const toggleShoppingList = (id: string) => {
     setShoppingListRecipes((prev) =>
       prev.includes(id) ? prev.filter((recipeId) => recipeId !== id) : [...prev, id]
     );
   };
 
+  /**
+   * Removes a recipe from the 'recipes' state
+   * @param {string} id - The ID of the recipe to remove
+   */
   const removeRecipe = (id: string) => {
     setRecipes(recipes.filter((recipe) => recipe.id !== id));
   };
 
+   /**
+   * Handles the search query and selected categories, and updates the state
+   * @param {string} query - The search query entered by the user
+   * @param {string[]} categories - The selected categories for filtering
+   */
   const handleSearch = (query: string, categories: string[]) => {
     setSearchQuery(query);
     setSelectedCategories(categories);

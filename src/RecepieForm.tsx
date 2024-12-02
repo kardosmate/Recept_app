@@ -21,7 +21,6 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   const [category, setCategory] = useState<string>(categories[0] || '');
   const [error, setError] = useState<string | null>(null);
 
-  // Effect to update form state if initialData changes
   useEffect(() => {
     if (initialData) {
       setName(initialData.name);

@@ -8,7 +8,7 @@ interface RecipeListProps {
   onToggleFavorite: (id: string) => void;
   onToggleShoppingList: (id: string) => void;
   onRemoveRecipe: (id: string) => void;
-  shoppingListRecipes: string[]; // Add the shopping list state
+  shoppingListRecipes: string[];
 }
 
 const RecipeList: React.FC<RecipeListProps> = ({
@@ -20,6 +20,10 @@ const RecipeList: React.FC<RecipeListProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  /**
+   * Navigate to the detailed page of the selected recipe
+   * @param {string} id - The ID of the recipe to navigate to
+   */
   const handleReadMore = (id: string) => {
     navigate(`/Recept_app/dist/recipe/${id}`);
   };
@@ -46,7 +50,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
             Törlés
           </button>
 
-          {/* Shopping list button */}
           <span
             className={`shopping-list-icon ${shoppingListRecipes.includes(recipe.id) ? 'added' : ''}`}
             onClick={() => onToggleShoppingList(recipe.id)}

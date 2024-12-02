@@ -24,7 +24,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes, onUpdateRecipe, 
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
-    setFormData(recipe); // Reset to original if cancelled
+    setFormData(recipe);
   };
 
   const handleChange = (
@@ -43,17 +43,17 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipes, onUpdateRecipe, 
 
   const handleShare = () => {
     const baseUrl = 'https://kardosmate.github.io/Recept_app';
-    const shareableLink = `${baseUrl}#/recipe/${id}`;
+    const shareableLink = `${baseUrl}/dist/#/recipe/${id}`;
 
     navigator.clipboard.writeText(shareableLink).then(() => {
       setShareMessage('A link kimásolva a vágólapra!');
-      setTimeout(() => setShareMessage(''), 3000); // Clear message after 3 seconds
+      setTimeout(() => setShareMessage(''), 3000);
     });
   };
 
   const handleSocialMediaShare = (platform: 'facebook' | 'twitter' | 'whatsapp') => {
     const baseUrl = 'https://kardosmate.github.io/Recept_app';
-    const shareableLink = `${baseUrl}#/recipe/${id}`;
+    const shareableLink = `${baseUrl}/dist/#/recipe/${id}`;
     let shareUrl = '';
 
     switch (platform) {

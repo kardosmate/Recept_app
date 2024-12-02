@@ -193,24 +193,3 @@ li button:nth-child(3):hover,
 li button:nth-child(4):hover {
     background-color: #3700b3;
 }
-
-
-/* Floating shopping list button */
-.shopping-list-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: white;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.2em;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-}
-
-.shopping-list-toggle:hover {
-    background-color: #218838;
-}

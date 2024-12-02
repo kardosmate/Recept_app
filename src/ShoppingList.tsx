@@ -12,6 +12,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({
   shoppingListRecipes,
   onToggleShoppingList,
 }) => {
+  // Kiválogatjuk azokat a recepteket, amelyek szerepelnek a bevásárlólistán
   const shoppingRecipes = recipes.filter((recipe) =>
     shoppingListRecipes.includes(recipe.id)
   );
