@@ -1,15 +1,48 @@
-# `create-preact`
+# Recept App
 
-<h2 align="center">
-  <img height="256" width="256" src="./src/assets/preact.svg">
-</h2>
+Ez az alkalmazás lehetőséget ad saját receptek tárolására, rendszerezésére és kezelésére.  
+A fő funkciók között megtalálható az új receptek hozzáadása, keresés, kategória szerinti szűrés, kedvencek kezelése, valamint egy dinamikus bevásárlólista összeállítása.
 
-<h3 align="center">Get started using Preact and Vite!</h3>
+![Kezdőlap](images/home_screen.png)
 
-## Getting Started
+## Fő funkciók
 
--   `npm run dev` - Starts a dev server at http://localhost:5173/
+### Új recept hozzáadása
+Lehetőség van saját receptek létrehozására, ahol megadhatod:
+- Recept nevét
+- Hozzávalókat
+- Leírást
+- Elkészítési időt
+- Kategóriát
 
--   `npm run build` - Builds for production, emitting to `dist/`
+![Új recept hozzáadása](images/add_recipe.png)
 
--   `npm run preview` - Starts a server at http://localhost:4173/ to test production build locally
+---
+
+### Receptek keresése
+A meglévő receptek között gyorsan kereshetsz:
+- **Név alapján**
+- **Hozzávalók alapján**
+- **Kategória alapján**
+
+![Receptek keresése](images/search_recipe.png)
+
+---
+
+### Bevásárlólista
+A bevásárlólista automatikusan összegyűjti a kiválasztott kedvenc receptek hozzávalóit, így könnyedén tervezheted meg a vásárlást.
+
+![Bevásárlólista](images/shopping_list.png)
+
+---
+
+## Technológiák
+- **React** + **TypeScript**
+- **React Router** az oldalak közötti navigációhoz
+- **CSS** az alapvető stílushoz
+- **Custom Hookok** (`useLocalStorage`, `useFetch`) az adatok kezelésére
+- **LocalStorage** használata a receptek mentéséhez
+
+## Futtatás
+
+Az alkalmazás elérhető a `http://kardosmate.github.io/Recept_app/dist` címen.
