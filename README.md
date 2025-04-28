@@ -1,7 +1,7 @@
 # Recept App
 
 Ez az alkalmazás lehetőséget ad saját receptek tárolására, rendszerezésére és kezelésére.  
-A fő funkciók között megtalálható az új receptek hozzáadása, keresés, kategória szerinti szűrés, kedvencek kezelése, valamint egy dinamikus bevásárlólista összeállítása.
+A fő funkciók között megtalálható az új receptek hozzáadása, keresés, kategória szerinti szűrés valamint egy dinamikus bevásárlólista összeállítása.
 
 ![Kezdőlap](images/home_screen.png)
 
@@ -45,4 +45,4 @@ A bevásárlólista automatikusan összegyűjti a kiválasztott kedvenc receptek
 
 ## Futtatás
 
-Az alkalmazás elérhető a `http://kardosmate.github.io/Recept_app/dist` címen.
+Az alkalmazás elérhető a [http://kardosmate.github.io/Recept_app/dist](http://kardosmate.github.io/Recept_app/dist) címen.
